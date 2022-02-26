@@ -1,0 +1,42 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Query {
+  todos: [Todo!]!
+  todo(id: String!): TodoResult!
+}
+
+interface Error {
+  message: String!
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+  updateTodo(input: NewTodo!): Todo!
+}
+
+type Todo {
+  id: ID!
+  text: String!
+  done: Boolean!
+  user: User!
+}
+
+type TodoNotFoundError implements Error{
+  message: String!
+  code: String!
+}
+
+# You either get a Todo, or a specific error.
+union TodoResult = Todo | TodoNotFoundError
+
+type User {
+  id: ID!
+  name: String!
+}
+
+input NewTodo {
+  text: String!
+  userId: String!
+}
